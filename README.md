@@ -1,2 +1,2 @@
 # pokebros_present
-Streamlit  App Pokemon Project by Ashan, Andre and Ilyaas
+Streamlit app Pokemon project by Ashan, Andre and Ilyaas
