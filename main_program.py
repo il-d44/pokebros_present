@@ -57,7 +57,9 @@ if str_pokedex_id.isdigit() and 1 <= int(str_pokedex_id) <= 898:
         st.image(image_url, caption=f"Pokémon #{formatted_number}")
 if pokedex_id == 99999:
     st.image('ryanchu.jpg', caption='Ryanchu', width=400)
-elif pokedex_id < 1 or pokedex_id > 898 or pokedex_id != 99999:
+elif 1 <= pokedex_id <= 898:
+    st.success(f"Valid Pokémon ID: {pokedex_id}")
+else:
     st.warning("Please enter a valid number between 1 and 898.")
 
 
