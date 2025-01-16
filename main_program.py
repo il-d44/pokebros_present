@@ -12,10 +12,10 @@ except FileNotFoundError:
     st.error("The file 'pokemon.csv' was not found. Please ensure it is in the same directory.")
 pokedex_db.rename(columns={pokedex_db.columns[0]: 'Duplicate Identifier'}, inplace=True)
 
+pokedex_id = st.number_input("Please enter Pokemon Number ", min_value=1, max_value=99999)
 
-
-pokedex_id = st.number_input("Please enter Pokemon Number ", min_value=1, max_value=898)
-
+with st.expander("Secret Pokemon"):
+    st.write("Enter 99999 for a look at an unreleased secret pokemon")
 
 if pokedex_id in pokedex_db['pokedex_number'].values:
     pokemon = pokedex_db[pokedex_db['pokedex_number'] == pokedex_id]
@@ -24,11 +24,11 @@ if pokedex_id in pokedex_db['pokedex_number'].values:
         pokemon_chooser.dataframe(pokemon)
         select_box = st.selectbox('There are a few pokemon with the same pokedex number, choose which pokemon with the Duplicate Identifier', pokemon['name'])
         pokemon_chooser.empty()
-        st.dataframe(pokedex_db[pokedex_db.iloc[:, 0] == select_box])
+        st.dataframe(pokedex_db[pokedex_db.iloc[:, 2] == select_box])
     else:
         st.dataframe(pokemon)
 else:
-    st.warning("No Pokémon found with that number.")
+    st.warning("No Pokémon data.")
 
 
 
@@ -51,6 +51,8 @@ if str_pokedex_id.isdigit() and 1 <= int(str_pokedex_id) <= 898:
     
     # Display the image
     st.image(image_url, caption=f"Pokémon #{formatted_number}")
+if pokedex_id == 99999:
+    st.image('ryanchu.jpg', caption='Ryanchu', width=400)
 else:
     st.warning("Please enter a valid number between 1 and 898.")
 
