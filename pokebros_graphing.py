@@ -2,7 +2,10 @@ import streamlit as st
 import pandas as pd
 
 # Load the data
-data = pd.read_csv('pokemon.csv')
+try:
+    data = pd.read_csv('pokemon.csv')
+except FileNotFoundError:
+    st.error("File not found: pokemon.csv. Please ensure the file exists.")
 
 # Select 5 random Pokémon
 def pick_random(df):
