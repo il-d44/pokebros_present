@@ -60,6 +60,10 @@ else:
 
 # GRAPHING
 
+#Filtering columns from selected pokemon
+pokemon = pokedex_db[pokedex_db['pokedex_number'] == pokedex_id]
+pokemon_stats = pokemon[['name', 'height_m', 'weight_kg']]
+
 # Select 5 random Pokémon
 def pick_random(df):
     random_pokemon = df.sample(5)[['name', 'height_m', 'weight_kg']]
@@ -81,60 +85,56 @@ if st.button("Show 5 Random Pokémon"):
 if st.session_state.show_data:
     # Display the DataFrame
     random_pokemon = st.session_state.random_pokemon
-    st.dataframe(random_pokemon)
+    all_pokemon = pd.concat([random_pokemon, pokemon_stats])
+    st.dataframe(all_pokemon)
 
     # Add spacing between the charts
     st.write("\n")  # Adds vertical space
 
-    # Create two columns for graphs with padding
-    height_col, weight_col = st.columns([1, 1], gap="large")
-
-    # Plot height in one column
-    with height_col:
-        pkmn_height_chart = (
-            alt.Chart(random_pokemon)
-            .mark_bar(size=35)
-            .encode(
-                x=alt.X("name:N", sort=None, title=None),
-                y=alt.Y("height_m:Q", title="Height (m)"),
-                color=alt.Color("name:N", legend=None),
-            )
-            .properties(
-                title="Height of Pokémon",
-                width=400,  # Adjust the width
-                height=450,  # Adjust the height
-            )
-            .configure_title(
-                fontSize=20,  # Set the title font size
-                fontWeight="bold",  # Optionally make it bold
-                anchor="start",  # Align the title to the left
-                color="white",  # Optionally set the title color
-            )
+    # Plot height 
+    pkmn_height_chart = (
+        alt.Chart(all_pokemon)
+        .mark_bar(size=35)
+        .encode(
+            x=alt.X("name:N", sort=None, title=None),
+            y=alt.Y("height_m:Q", title="Height (m)"),
+            color=alt.Color("name:N", legend=None),
         )
-        st.altair_chart(pkmn_height_chart)
-
-    # Plot weight in another column
-    with weight_col:
-        pkmn_weight_chart = (
-            alt.Chart(random_pokemon)
-            .mark_bar(size=35)
-            .encode(
-                x=alt.X("name:N", sort=None, title=None),
-                y=alt.Y("weight_kg:Q", title="Weight (kg)"),
-                color=alt.Color("name:N", legend=None),
-            )
-            .properties(
-                title="Weight of Pokémon",
-                width=400,  # Adjust the width
-                height=450,  # Adjust the height
-            )
-            .configure_title(
-                fontSize=20,  # Set the title font size
-                fontWeight="bold",  # Optionally make it bold
-                anchor="start",  # Align the title to the left
-                color="white",  # Optionally set the title color
-            )
+        .properties(
+            title="Height of Pokémon",
+            width=500,  # Adjust the width
+            height=550,  # Adjust the height
         )
-        st.altair_chart(pkmn_weight_chart)
+        .configure_title(
+            fontSize=20,  # Set the title font size
+            fontWeight="bold",  # Optionally make it bold
+            anchor="start",  # Align the title to the left
+            color="white",  # Optionally set the title color
+        )
+    )
+    st.altair_chart(pkmn_height_chart)
+
+    # Plot weight 
+    pkmn_weight_chart = (
+        alt.Chart(all_pokemon)
+        .mark_bar(size=35)
+        .encode(
+            x=alt.X("name:N", sort=None, title=None),
+            y=alt.Y("weight_kg:Q", title="Weight (kg)"),
+            color=alt.Color("name:N", legend=None),
+        )
+        .properties(
+            title="Weight of Pokémon",
+            width=500,  # Adjust the width
+            height=550,  # Adjust the height
+        )
+        .configure_title(
+            fontSize=20,  # Set the title font size
+            fontWeight="bold",  # Optionally make it bold
+            anchor="start",  # Align the title to the left
+            color="white",  # Optionally set the title color
+        )
+    )
+    st.altair_chart(pkmn_weight_chart)
 
 
