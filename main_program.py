@@ -39,12 +39,12 @@ else:
 st.title("Pokémon Image Viewer")
 
 # Input for Pokémon number
-
+str_pokedex_id = str(pokedex_id)
 
 # Validate user input
-if pokedex_id.isdigit() and 1 <= int(pokedex_id) <= 898:
+if str_pokedex_id.isdigit() and 1 <= int(str_pokedex_id) <= 898:
     # Format the Pokémon number with leading zeros
-    formatted_number = pokedex_id.zfill(3)
+    formatted_number = str_pokedex_id.zfill(3)
     
     # Construct the image URL
     image_url = f"https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/{formatted_number}.png"
